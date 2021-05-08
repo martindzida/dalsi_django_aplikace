@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}IKAE - {{ produkt.nazev }}{% endblock %}
+
+{% block navlinks %}
+<li class="nav-item px-4 mx-4">
+  <a class="nav-link" href="{% url 'produkty-list'%}">Produkty</a>
+</li>
+<li class="nav-item dropdown px-4 mx-4">
+  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Kategorie
+  </a>
+  <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+    {% for kategorie in nav_kategorie %}
+      <a class="dropdown-item" href="{% url 'kategorie-detail' kategorie.pk %}">{{ kategorie.nazev_kategorie }}</a>
+    {% endfor %}
+  </div>
+</li>
+<li class="nav-item dropdown px-4 mx-4">
+  <a class="nav-link dropdown-toggle" href="" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Kolekce
+  </a>
+  <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+    {% for kolekce in nav_kolekce %}
+      <a class="dropdown-item" href="{% url 'kolekce-detail' kolekce.pk %}">{{ kolekce.nazev_kolekce }}</a>
+    {% endfor %}
+  </div>
+</li>
+{% endblock %}
+
+{% block content %}
+  <header class="mb-3 p-4">
+    <h1 class="text-center pismo p-3">{{ produkt.nazev }}</h1>
+  </header>
+  <hr>
+  <div class="p-4 my-4 mx-2">
+    <div class="row justify-content-center p-2 my-4">
+      <div class="col-md-6 col-sm-12 p-4">
+          <img class="img-fluid" src="{{ produkt.foto.url }}" alt="{{ produkt.nazev }}">
+      </div>
+      <div class="col-md-6 col-sm-12 text-center">
+          <h2 style="font-size: 3em;" class="pismo my-5 p-3">{{ produkt.cena }} ,-</h2>
+          <p style="font-size: 1.5em;" class="p-3 my-4">{{ produkt.popis }}</p>
+          <h4 class="pismo p-2">Kategorie: {{ produkt.kategorie }}</h4>
+          <h4 class="pismo p-2">Kolekce: {{ produkt.kolekce }}</h4>
+          {% if produkt.pocet_ks == 0 %} 
+            <h5 style="color: #ff1919" class="p-2"><i class="fas fa-shopping-cart mx-2"></i>{{produkt.pocet_ks}} ks na skladě</h5>
+          {% else %}
+            <h5 style="color:#00cc00" class="p-2"><i class="fas fa-shopping-cart mx-2"></i>{{produkt.pocet_ks}} ks na skladě</h5>
+          {% endif %}
+          
+      </div>
+    </div>
+  </div>
+{% endblock %}

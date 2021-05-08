@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}IKAE - Úvodní stránka{% endblock %}
+
+{% block navlinks %}
+<li class="nav-item px-4 mx-4">
+  <a class="nav-link" href="{% url 'produkty-list'%}">Produkty</a>
+</li>
+<li class="nav-item dropdown px-4 mx-4">
+  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Kategorie
+  </a>
+  <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+    {% for kategorie in nav_kategorie %}
+      <a class="dropdown-item" href="{% url 'kategorie-detail' kategorie.pk %}">{{ kategorie.nazev_kategorie }}</a>
+    {% endfor %}
+  </div>
+</li>
+<li class="nav-item dropdown px-4 mx-4">
+  <a class="nav-link dropdown-toggle" href="" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Kolekce
+  </a>
+  <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+    {% for kolekce in nav_kolekce %}
+      <a class="dropdown-item" href="{% url 'kolekce-detail' kolekce.pk %}">{{ kolekce.nazev_kolekce }}</a>
+    {% endfor %}
+  </div>
+</li>
+{% endblock %}
+
+{% block content %}
+  <header class="border-bottom border-dark mb-3 p-4">
+    <h1 class="text-center pismo p-3">{{ nadpis }}</h1>
+  </header>
+  <div class="p-4 my-4 mx-2">
+    <a href="{% url 'kategorie-list' %}">
+      <h2 class="text-center pismo p-4 mb-3">Kategorie</h2>
+    </a>
+    <div class="row justify-content-center">
+      {% for kategorie in nav_kategorie %}     
+        <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 m-2">
+          <a href="{% url 'kategorie-detail' kategorie.pk %}">
+            <div class="card p-3" style="width: 15rem;">
+              <div class="card-body text-center">
+                <h4>{{ kategorie.nazev_kategorie}}</h4>
+              </div>
+            </div>
+        </a>
+        </div>    
+      {% endfor %}
+    </div>
+  </div>
+  <hr>
+  <div class="p-4 my-4 mx-2">
+    <a href="{% url 'kolekce-list' %}">
+      <h2 class="text-center pismo p-4 mb-3">Kolekce</h2>
+    </a>
+    <div class="row justify-content-center">
+      {% for kolekce in nav_kolekce %}     
+        <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 m-2">
+          <a href="{% url 'kolekce-detail' kolekce.pk %}">
+            <div class="card p-3" style="width: 15rem;">
+              <div class="card-body text-center">
+                <h4>{{ kolekce.nazev_kolekce}}</h4>
+              </div>
+            </div>
+        </a>
+        </div>    
+      {% endfor %}
+    </div>
+  </div>
+  <hr>
+  <div class="p-3 my-4">
+    <a href="{% url 'kolekce-detail' nav_kolekce.0.pk %}">
+      <h3 class="text-center pismo p-4 mb-3">Nejnovější kolekce - {{ nav_kolekce.0.nazev_kolekce }}</h3>
+    </a>
+    <div class="row justify-content-center">
+    {% for produkt in nejnovejsi_kolekce %}     
+      <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-xs-12 m-2">
+        <a href="{% url 'produkt-detail' produkt.pk %}">
+          <div class="card p-3" style="width: 12rem;">
+          <img class="card-img-top img-fluid border border-dark p-3" src="{{ produkt.foto.url }}" alt="{{ produkt.nazev }}">
+          <div class="card-body text-center">
+            <h4>{{ produkt.nazev}}</h4>
+            <h5>{{ produkt.cena }} ,-</h5>
+          </div>
+        </div>
+      </a>   
+      </div>    
+    {% endfor %}
+    </div>
+  </div>
+{% endblock %}
