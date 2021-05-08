@@ -1,1 +1,1 @@
-"readme" 
+Jednoduchý nábytkový katalog
